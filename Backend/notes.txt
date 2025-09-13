@@ -1,0 +1,20 @@
+data create karne----------
+
+---------------------
+CREATE DATABASE ems;
+USE ems;
+CREATE TABLE employees(
+e_id INT AUTO_INCREMENT PRIMARY KEY,
+name VARCHAR(255) NOT NULL,
+email VARCHAR(255) NOT NULL UNIQUE,
+salary DECIMAL(10,2) NOT NULL CHECK(salary >=0),
+HRA DECIMAL(10,2) NOT NULL,
+joining_date DATE NOT NULL,
+department VARCHAR(255) NOT NULL,
+age INT NOT NULL CHECK (age > 0),
+created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+
+SELECT * FROM employees;
