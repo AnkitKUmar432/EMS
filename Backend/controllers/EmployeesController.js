@@ -9,7 +9,7 @@ exports.createEmployee = (req, res) => {
         return res.status(400).json({ error: "All fields are required" });
     }
 
-    // Validation
+    
     if (typeof salary !== 'number' || salary <= 0)
         return res.status(400).json({ error: "Salary must be a positive number" });
 
@@ -38,14 +38,7 @@ exports.getEmployees = (req, res) => {
     });
 };
 
-// exports.getEmployeesById = (req, res) => {
-//     const { id } = req.params;
-//     db.query('SELECT * FROM employees WHERE e_id = ?', [id], (err, result) => {
-//         if (err) return res.status(404).json({ error: "Employees not found" });
-//         res.json(result[0]);
-//     })
 
-// };
 exports.getEmployeesById = (req, res) => {
   const { id } = req.params;
   const query = `SELECT * FROM employees WHERE e_id = ?`;
@@ -54,7 +47,7 @@ exports.getEmployeesById = (req, res) => {
     if (err) return res.status(500).json({ error: "Error fetching employee", details: err.message });
     if (result.length === 0) return res.status(404).json({ message: "Employee not found" });
 
-    res.json(result[0]); // 👈 directly ek object bhejo, array mat bhejo
+    res.json(result[0]);
   });
 };
 
