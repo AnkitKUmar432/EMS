@@ -38,23 +38,34 @@ exports.getEmployees = (req, res) => {
     });
 };
 
-exports.getEmployeesById = (req, res) => {
-    const { id } = req.params;
-    db.query('SELECT * FROM employees WHERE e_id = ?', [id], (err, result) => {
-        if (err) return res.status(404).json({ error: "Employees not found" });
-        res.json(result[0]);
-    })
+// exports.getEmployeesById = (req, res) => {
+//     const { id } = req.params;
+//     db.query('SELECT * FROM employees WHERE e_id = ?', [id], (err, result) => {
+//         if (err) return res.status(404).json({ error: "Employees not found" });
+//         res.json(result[0]);
+//     })
 
+// };
+exports.getEmployeesById = (req, res) => {
+  const { id } = req.params;
+  const query = `SELECT * FROM employees WHERE e_id = ?`;
+
+  db.query(query, [id], (err, result) => {
+    if (err) return res.status(500).json({ error: "Error fetching employee", details: err.message });
+    if (result.length === 0) return res.status(404).json({ message: "Employee not found" });
+
+    res.json(result[0]); // 👈 directly ek object bhejo, array mat bhejo
+  });
 };
 
 exports.updateEmployeesById = (req, res) => {
     const { id } = req.params;
     const { name, email, salary, joining_date, department, age } = req.body;
     const HRA = HRAValue(salary);
-
+    const sqlDate = joining_date ? new Date(joining_date).toISOString().split("T")[0] : null;
     const query = `UPDATE employees SET name=?, email=?, salary=?, HRA=?, joining_date=?, department=?,age=? WHERE e_id=?`;
 
-    db.query(query, [name, email, salary, HRA, joining_date, department, age, id], (err, result) => {
+    db.query(query, [name, email, salary, HRA, sqlDate, department, age, id], (err, result) => {
         
         if (err) return res.status(500).json({ err: "Employees not updated" })
         if (result.affectedRows === 0) return res.status(404).json({ message: "Employee not found" });

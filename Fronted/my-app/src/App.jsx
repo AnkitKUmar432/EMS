@@ -1,28 +1,24 @@
-import { useState } from "react";
-import "./App.css";
+
+// import "./App.css";
 import EmployeeTable from "./components/EmployeeTable";
 import { Route, Routes } from "react-router-dom";
-import EmployeeForm from "./components/EmployeeEdit";
-import EmployeeEdit from "./components/EmployeeForm";
-
+import EmployeeEdit from "./components/EmployeeEdit";
+import EmployeeForm from "./components/EmployeeForm";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 function App() {
-  const [count, setCount] = useState(0);
+
 
   return (
     <>
       <Routes>
         <Route path="/" element={<EmployeeTable />} />
-        <Route path="/create" element={<EmployeeForm/>} />
-        <Route path="/update/:id" element={<EmployeeEdit/>} />
+        <Route path="/create" element={<EmployeeForm />} />
+        <Route path="/update/:id" element={<EmployeeEdit />} />
       </Routes>
 
-      <div className="container mt-5">
-        <h1 className="text-primary">Hello Bootstrap in React</h1>
-        <button className="btn btn-success">Click Me</button>
-      </div>
+      <ToastContainer position="top-right" autoClose={3000} />
 
-      {/* Agar neeche EmployeeTable dikhana chahte ho to Routes me dobara dene ki need nahi hai */}
-      {/* <EmployeeTable /> */}
     </>
   );
 }

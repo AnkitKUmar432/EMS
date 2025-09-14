@@ -1,33 +1,33 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
+import { toast } from "react-toastify";
 function EmployeeTable() {
+  const URL = import.meta.env.VITE_API_URL;
   const [data, setData] = useState([]);
 
   useEffect(() => {
     let getData = async () => {
       try {
-        let res = await axios.get("http://localhost:5000/api/employees");
+        let res = await axios.get(`${URL}`);
         setData(res.data);
       } catch (err) {
-        console.error("Error fetching employees:", err);
+        toast.error("Error fetching employees");
       }
     };
     getData();
   },[]);
 
-  // Delete function
   let deletedButton = async (id) => {
 
     try {
-      await axios.delete(`http://localhost:5000/api/employees/remove/${id}`);
+      await axios.delete(`${URL}/remove/${id}`);
       let filterData = data.filter((d) => d.e_id !== id);
       setData(filterData);
-      console.log(filterData);
+      toast.success("Delete successfully")
 
     } catch (err) {
-      console.error("Error deleting employee:", err);
+      toast.error("Error deleting employee:");
     }
   };
 
@@ -56,7 +56,7 @@ function EmployeeTable() {
               <td>{emp.email}</td>
               <td>₹{emp.salary}</td>
               <td>₹{emp.HRA}</td>
-              <td>{emp.joining_date}</td>
+              <td>{new Date(emp.joining_date).toLocaleDateString()}</td>
               <td>{emp.department}</td>
               <td>{emp.age}</td>
               <td>
@@ -75,6 +75,11 @@ function EmployeeTable() {
           ))}
         </tbody>
       </table>
+      <div>
+     <Link to={'/create'}><button class="btn btn-primary btn-lg active" role="button">Create Employee</button></Link>
+
+      </div>
+
     </div>
   );
 }
