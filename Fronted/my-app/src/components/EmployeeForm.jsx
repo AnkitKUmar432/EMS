@@ -54,7 +54,7 @@ function EmployeeForm() {
             <label>Age:</label>
             <Field name="age" type="number" className="form-control mb-3" required />
 
-            <button type="submit" className="btn btn-success">Update</button>
+            <button type="submit" className="btn btn-success">Create</button>
           </Form>
         )}
       </Formik>
